@@ -212,7 +212,7 @@ midiAutoDJ.main = function() { // Called by timer
 					engine.setValue("[Channel"+ prev +"]", "filterLow", 0);
 
 				} else {
-					engine.setValue("[Channel"+ prev +"]", "filterLow", eq-0.1);
+					engine.setValue("[Channel"+ prev +"]", "filterLow", eq-this.lowChangeRate);
 				}
 			}
 		}
