@@ -207,8 +207,14 @@ midiAutoDJ.main = function() { // Called by timer
 		// Normalised crossfader variable to be used at several points below:
 		if(this.lowChangeRate > 0){
 			var eq = engine.getValue("[Channel"+prev+"]", "filterLow")
-			engine.setValue("[Channel"+ prev +"]", "filterLow", eq-0.1);
-			engine.setValue("[Channel"+ next +"]", "filterLow", 1);
+			if(eq > 0){
+				if(eq - this.lowChangeRate < 0){
+					engine.setValue("[Channel"+ prev +"]", "filterLow", 0);
+
+				} else {
+					engine.setValue("[Channel"+ prev +"]", "filterLow", eq-0.1);
+				}
+			}
 		}
 		var crossfader = engine.getValue("[Master]", "crossfader"); // Oscillates between -1.0 and 1.0
 		crossfader = (crossfader+1.0)/2.0; // Oscillates between 0.0 and 1.0
