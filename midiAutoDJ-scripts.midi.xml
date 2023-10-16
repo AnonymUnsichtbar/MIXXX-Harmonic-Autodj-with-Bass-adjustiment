@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<MixxxControllerPreset mixxxVersion="2.0" schemaVersion="1"> <!-- Schema version number to help compatibility, should the MIDI format change -->
+    <info>
+        <name>midiAutoDJ</name>
+        <author>Sophia Herzog</author>
+        <description>Harmonic mixing and smoother transitions for AutoDJ in Mixxx</description>
+        <wiki>https://mixxx.discourse.group/t/auto-dj-extension-for-beatmatching-and-harmonic-mixing/15962</wiki>
+        <forums>https://mixxx.discourse.group/t/auto-dj-extension-for-beatmatching-and-harmonic-mixing/15962</forums>
+    </info>
+
+    <controller id="midiAutoDJ">
+            <scriptfiles>
+                <file filename="midiAutoDJ-scripts.js" functionprefix="midiAutoDJ"/>
+            </scriptfiles>
+    </controller>
+</MixxxControllerPreset>
