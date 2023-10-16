@@ -105,6 +105,10 @@ midiAutoDJ.fadeRange = 0.25;         // Decide how far the Quick Effects knob sh
                                     // 0.5: Fade out to 25%, fade in from 75%
                                     // 1.0: Fade out to  0%, fade in from 100%
                                     // Unit: Float; Range: 0.0 to 1.0; Default: 0.5
+midiAutoDJ.lowChangeRate = 0.1;     // Decide how fast the low knob should turn left while transitioning
+                                    // 0.0 Does not turn left at all
+                                    // 1.0: Turns to the far left instantly
+                                    // Unit: Float; Range: 0.0 to 1.0; Default: 0.5									
 
 // Advanced Options
 midiAutoDJ.refineDuration = 500; // Duration of sleeping between two track skips.
@@ -201,9 +205,11 @@ midiAutoDJ.main = function() { // Called by timer
 	// Next track is playing --> Fade in progress
 	if (nextPlaying && nextPos > 0.0) { // play_indicator is falsely true, when analysis is needed and similar
 		// Normalised crossfader variable to be used at several points below:
-		var eq = engine.getValue("[Channel"+prev+"]", "filterLow")
-        engine.setValue("[Channel"+ prev +"]", "filterLow", eq-0.1);
-        engine.setValue("[Channel"+ next +"]", "filterLow", 1);
+		if(this.lowChangeRate > 0){
+			var eq = engine.getValue("[Channel"+prev+"]", "filterLow")
+			engine.setValue("[Channel"+ prev +"]", "filterLow", eq-0.1);
+			engine.setValue("[Channel"+ next +"]", "filterLow", 1);
+		}
 		var crossfader = engine.getValue("[Master]", "crossfader"); // Oscillates between -1.0 and 1.0
 		crossfader = (crossfader+1.0)/2.0; // Oscillates between 0.0 and 1.0
 		if ( next === 1 ) {
@@ -381,8 +387,10 @@ midiAutoDJ.main = function() { // Called by timer
 				}
 			}
 		} else { // Song selected
-			engine.setValue("[Channel"+ prev +"]", "filterLow", 1);
-			engine.setValue("[Channel"+ next +"]", "filterLow", 1);
+			if(this.lowChangeRate > 0){
+				engine.setValue("[Channel"+ prev +"]", "filterLow", 1);
+				engine.setValue("[Channel"+ next +"]", "filterLow", 1);
+			}
 			if (midiAutoDJ.adaptiveBpmSearch) {
 				midiAutoDJ.currMaxBpmAdj = midiAutoDJ.maxBpmAdjustment/4;
 			}
