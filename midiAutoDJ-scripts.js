@@ -208,7 +208,6 @@ midiAutoDJ.main = function() { // Called by timer
 		if(this.lowChangeRate > 0){
 			var eq = engine.getValue("[Channel"+prev+"]", "filterLow")
 			if(eq > 0){
-				engine.setValue("[Channel"+ next +"]", "filterLow", 1);
 				if(eq - this.lowChangeRate < 0){
 					engine.setValue("[Channel"+ prev +"]", "filterLow", 0);
 
@@ -394,6 +393,10 @@ midiAutoDJ.main = function() { // Called by timer
 				}
 			}
 		} else { // Song selected
+			if(this.lowChangeRate > 0){
+				engine.setValue("[Channel"+ prev +"]", "filterLow", 1);
+				engine.setValue("[Channel"+ next +"]", "filterLow", 1);
+			}
 			if (midiAutoDJ.adaptiveBpmSearch) {
 				midiAutoDJ.currMaxBpmAdj = midiAutoDJ.maxBpmAdjustment/4;
 			}
