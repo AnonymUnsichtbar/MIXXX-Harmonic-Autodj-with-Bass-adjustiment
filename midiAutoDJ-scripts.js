@@ -108,7 +108,7 @@ midiAutoDJ.fadeRange = 0.25;         // Decide how far the Quick Effects knob sh
 midiAutoDJ.lowChangeRate = 0.1;     // Decide how fast the low knob should turn left while transitioning
                                     // 0.0 Does not turn left at all
                                     // 1.0: Turns to the far left instantly
-                                    // Unit: Float; Range: 0.0 to 1.0; Default: 0.5									
+                                    // Unit: Float; Range: 0.0 to 1.0; Default: 0.5
 
 // Advanced Options
 midiAutoDJ.refineDuration = 500; // Duration of sleeping between two track skips.
@@ -208,6 +208,7 @@ midiAutoDJ.main = function() { // Called by timer
 		if(this.lowChangeRate > 0){
 			var eq = engine.getValue("[Channel"+prev+"]", "filterLow")
 			if(eq > 0){
+				engine.setValue("[Channel"+ next +"]", "filterLow", 1);
 				if(eq - this.lowChangeRate < 0){
 					engine.setValue("[Channel"+ prev +"]", "filterLow", 0);
 
@@ -393,10 +394,6 @@ midiAutoDJ.main = function() { // Called by timer
 				}
 			}
 		} else { // Song selected
-			if(this.lowChangeRate > 0){
-				engine.setValue("[Channel"+ prev +"]", "filterLow", 1);
-				engine.setValue("[Channel"+ next +"]", "filterLow", 1);
-			}
 			if (midiAutoDJ.adaptiveBpmSearch) {
 				midiAutoDJ.currMaxBpmAdj = midiAutoDJ.maxBpmAdjustment/4;
 			}
